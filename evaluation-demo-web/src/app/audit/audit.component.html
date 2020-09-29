@@ -1,0 +1,56 @@
+<h1>Hi {{currentUser.firstName}}!</h1>
+<p>You're logged in with Angular 8!!</p>
+<h3>All login audit :</h3>
+<!-- dropdown for time format -->
+<select class="custom-select mb-3 col-3 form-control" [(ngModel)]="selectedOption">
+  <option value="12" selected>12 h</option>
+  <option value="24">24 h</option>
+</select>
+
+<div class="mat-elevation-z8">
+  <!-- filtering the values -->
+    <input type="text" (keyup)="applyFilter($event.target.value)" class="form-control col-6" placeholder="Filter">
+    <!-- data-table -->
+    <table mat-table [dataSource]="dataSource" matSort style="width: 1244px;">
+      <ng-container matColumnDef="id">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header> id </th>
+        <td mat-cell *matCellDef="let element"> {{element.id}} </td>
+      </ng-container>
+  
+      <ng-container matColumnDef="user">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header> User </th>
+        <td mat-cell *matCellDef="let element"> {{element.user}} </td>
+      </ng-container>
+  
+      <ng-container matColumnDef="loginTime">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header> loginTime </th>
+        <td mat-cell *matCellDef="let element">{{element.logoutTime | date :'dd/MM/yyyy'}} {{selectedOption==12? (element.logoutTime | date  :'mediumTime') : (element.logoutTime | date  :'HH:mm:ss')}} </td>
+      </ng-container>
+  
+      <ng-container matColumnDef="logoutTime">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header> logoutTime </th>
+        <td mat-cell *matCellDef="let element"> {{element.logoutTime | date :'dd/MM/yyyy'}} {{selectedOption==12? (element.logoutTime | date  :'mediumTime') : (element.logoutTime | date  :'HH:mm:ss')}}</td>
+      </ng-container>
+
+      <ng-container matColumnDef="ip">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header> ip </th>
+        <td mat-cell *matCellDef="let element"> {{element.ip}} </td>
+      </ng-container>
+  
+      <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+      <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+    </table>
+  
+    <mat-paginator [pageSize]="pageSize" showFirstLastButtons></mat-paginator>
+  </div>
+
+<!-- <ul>
+    <li *ngFor="let audit of audits">
+        <br/><span class="badge badge-primary">{{audit.user}}</span>
+        <br/><span class="badge badge-secondary">{{audit._id}}</span>
+        <br/>Login - {{audit.loginTime}}
+        <br/>Logout - {{audit.logoutTime}}
+        <br/>IP - {{audit.ip}}
+    </li>
+
+</ul> -->
